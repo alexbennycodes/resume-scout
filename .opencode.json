@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "code-review-graph": {
+      "command": "C:\\Users\\benny\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "args": [
+        "-m",
+        "code_review_graph",
+        "serve"
+      ],
+      "cwd": "C:\\Users\\benny\\OneDrive\\Desktop\\dev_work\\Resume-Matcher",
+      "type": "stdio",
+      "env": []
+    }
+  }
+}
