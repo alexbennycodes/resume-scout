@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, NoReturn
 from uuid import uuid4
 
-from fastapi import APIRouter, File, HTTPException, Query, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from fastapi.responses import Response
 
 from app.config_cache import get_content_language, load_config as _load_config

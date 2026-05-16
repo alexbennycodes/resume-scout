@@ -11,12 +11,6 @@ interface RichTextToolbarProps {
   onLinkClick: () => void;
 }
 
-/**
- * Rich Text Toolbar Component
- *
- * Swiss International Style formatting toolbar with B/I/U/Link buttons.
- * Active states shown with Hyper Blue background.
- */
 export const RichTextToolbar: React.FC<RichTextToolbarProps> = ({ editor, onLinkClick }) => {
   const tools = [
     {
@@ -50,7 +44,7 @@ export const RichTextToolbar: React.FC<RichTextToolbarProps> = ({ editor, onLink
   ];
 
   return (
-    <div className="flex items-center gap-1 p-1 border border-black bg-secondary">
+    <div className="flex items-center gap-1 p-1.5 bg-muted rounded-xl">
       {tools.map((tool) => (
         <Button
           key={tool.label}
@@ -65,8 +59,8 @@ export const RichTextToolbar: React.FC<RichTextToolbarProps> = ({ editor, onLink
           aria-pressed={tool.isActive}
           title={`${tool.label} (${tool.shortcut})`}
           className={cn(
-            'h-7 w-7 rounded-none',
-            tool.isActive && 'bg-blue-700 text-white hover:bg-blue-800 hover:text-white'
+            'h-8 w-8 rounded-lg',
+            tool.isActive && 'bg-primary/10 text-primary hover:bg-primary/20'
           )}
         >
           <tool.icon className="w-4 h-4" />

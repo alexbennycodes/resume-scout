@@ -4,8 +4,13 @@
 @source "../../../{app,components,hooks,lib,messages}/**/*.{js,ts,jsx,tsx,mdx}";
 
 @theme inline {
-  /* No --radius-* tokens — Swiss style commits to rounded-none everywhere.
-     Dead tokens removed. */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -21,6 +26,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -38,23 +44,15 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Swiss Style brand tokens. --color-primary, --color-destructive,
-     --color-secondary, --color-background already exist above via the
-     legacy var(--xxx) chain — these are only the additional brand
-     semantics that didn't exist as @theme tokens before. */
   --color-canvas: #f0f0e8;
   --color-ink: #000000;
   --color-success: #15803d;
   --color-warning: #f97316;
 
-  /* Brand-tinted neutrals (OKLCH, chroma tinted ~0.005-0.018 toward
-     Hyper Blue hue 264) — replace ad-hoc Tailwind grays. */
-  --color-paper-tint: oklch(96% 0.005 264); /* replaces gray-50/100/200 */
-  --color-steel-grey: oklch(64% 0.012 264); /* replaces gray-300/400/500 */
-  --color-ink-soft: oklch(38% 0.018 264); /* replaces gray-600/700/800/900 */
+  --color-paper-tint: oklch(96% 0.005 264);
+  --color-steel-grey: oklch(64% 0.012 264);
+  --color-ink-soft: oklch(38% 0.018 264);
 
-  /* Hard offset shadows in solid ink — Swiss style commits to no blur.
-     Sized small (1px) through xl (12px) for Hero/featured surfaces. */
   --shadow-sw-xs: 1px 1px 0px 0px #000000;
   --shadow-sw-sm: 2px 2px 0px 0px #000000;
   --shadow-sw-default: 4px 4px 0px 0px #000000;
@@ -62,11 +60,9 @@
   --shadow-sw-lg: 8px 8px 0px 0px #000000;
   --shadow-sw-xl: 12px 12px 0px 0px #000000;
 
-  /* Fonts */
   --font-sans: 'Geist Sans', sans-serif;
   --font-mono: 'Space Grotesk', monospace;
 
-  /* Animations */
   --animate-gradient: gradient 8s linear infinite;
 
   @keyframes gradient {
@@ -77,68 +73,131 @@
 }
 
 :root {
-  --font-mono: 'Geist Mono', monospace;
-  --font-sans: 'Geist', sans-serif;
+  --radius: 0.875rem;
 
-  /* Swiss International Style Palette */
-  --background: #f0f0e8; /* Canvas */
-  --foreground: #000000; /* Ink */
+  --background: oklch(0.99 0.003 250);
+  --foreground: oklch(0.18 0.03 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.03 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.03 260);
+  --primary: oklch(0.58 0.21 260);
+  --primary-foreground: oklch(0.99 0.003 250);
+  --secondary: oklch(0.96 0.01 250);
+  --secondary-foreground: oklch(0.18 0.03 260);
+  --muted: oklch(0.96 0.008 250);
+  --muted-foreground: oklch(0.48 0.02 260);
+  --accent: oklch(0.94 0.04 255);
+  --accent-foreground: oklch(0.30 0.12 260);
+  --destructive: oklch(0.63 0.24 27);
+  --destructive-foreground: oklch(0.99 0.003 250);
+  --border: oklch(0.92 0.008 250);
+  --input: oklch(0.94 0.008 250);
+  --ring: oklch(0.58 0.21 260);
 
-  --card: #f0f0e8;
-  --card-foreground: #000000;
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
 
-  --popover: #f0f0e8;
-  --popover-foreground: #000000;
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.18 0.03 260);
+  --sidebar-primary: oklch(0.58 0.21 260);
+  --sidebar-primary-foreground: oklch(0.99 0.003 250);
+  --sidebar-accent: oklch(0.96 0.01 250);
+  --sidebar-accent-foreground: oklch(0.18 0.03 260);
+  --sidebar-border: oklch(0.92 0.008 250);
+  --sidebar-ring: oklch(0.58 0.21 260);
 
-  --primary: #1d4ed8; /* Hyper Blue */
-  --primary-foreground: #ffffff;
-
-  --secondary: #e5e5e0; /* Panel Grey */
-  --secondary-foreground: #000000;
-
-  --muted: #e5e5e0;
-  --muted-foreground: #6b7280;
-
-  --accent: #e5e5e0;
-  --accent-foreground: #000000;
-
-  --destructive: #dc2626; /* Alert Red */
-  --destructive-foreground: #ffffff;
-
-  --border: #000000;
-  --input: #f0f0e8;
-  --ring: #1d4ed8;
-
-  --chart-1: #1d4ed8;
-  --chart-2: #15803d;
-  --chart-3: #f97316;
-  --chart-4: #dc2626;
-  --chart-5: #000000;
-
-  --sidebar: #e5e5e0;
-  --sidebar-foreground: #000000;
-  --sidebar-primary: #1d4ed8;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #d8d8d2;
-  --sidebar-accent-foreground: #000000;
-  --sidebar-border: #000000;
-  --sidebar-ring: #1d4ed8;
+  --surface-elevated: oklch(1 0 0);
+  --grid-line: oklch(0.93 0.008 250);
+  --glow: oklch(0.58 0.21 260 / 0.30);
+  --gradient-hero: radial-gradient(ellipse at top, oklch(0.58 0.21 260 / 0.10), transparent 60%);
+  --gradient-card: linear-gradient(135deg, oklch(1 0 0) 0%, oklch(0.98 0.008 250) 100%);
+  --shadow-glow: 0 10px 40px -10px var(--glow);
+  --shadow-elevated: 0 20px 50px -24px oklch(0.30 0.12 260 / 0.22);
 }
-
-/* Light theme only — Swiss/Brutalist works on the warm Canvas background.
-   The half-finished dark mode mapping was removed; .impeccable.md commits
-   to light only. */
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at 20% -10%, oklch(0.58 0.21 260 / 0.10), transparent 45%),
+      radial-gradient(circle at 85% 5%, oklch(0.70 0.16 235 / 0.08), transparent 50%);
   }
-  /* The global `button { font-family: var(--font-mono) }` rule was removed.
-     The Button component applies font-mono via its Tailwind classes, and the
-     global rule was leaking into nested text inside <button> elements. */
+
+  .font-display {
+    font-family: var(--font-display), ui-serif, Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .font-mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .shimmer {
+    background: linear-gradient(90deg, transparent, oklch(0.58 0.21 260 / 0.10), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2.2s linear infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 0.4; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+  .pulse-dot { animation: pulse-dot 1.6s ease-in-out infinite; }
+
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .float-y { animation: float-y 4s ease-in-out infinite; }
+
+  @keyframes type-caret {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  .type-caret::after {
+    content: "▍";
+    margin-left: 2px;
+    color: var(--color-primary);
+    animation: type-caret 1s steps(1) infinite;
+  }
+}
+
+@layer utilities {
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .reveal { animation: rise-in 0.6s cubic-bezier(.2,.7,.2,1) both; }
+  .pop { animation: pop-in 0.4s cubic-bezier(.2,.7,.2,1) both; }
+  .delay-1 { animation-delay: 80ms; }
+  .delay-2 { animation-delay: 160ms; }
+  .delay-3 { animation-delay: 240ms; }
+  .delay-4 { animation-delay: 320ms; }
+  .delay-5 { animation-delay: 400ms; }
+  .delay-6 { animation-delay: 480ms; }
 }
 
 @media print {
@@ -157,8 +216,8 @@
   }
 
   .resume-print,
-  .resume-print *,
   .cover-letter-print,
+  .resume-print *,
   .cover-letter-print * {
     visibility: visible !important;
   }
@@ -191,36 +250,23 @@
   }
 }
 
-/* ============================================
-   PAGE BREAK CONTROL
-   Prevents individual items from being split
-   across pages during PDF generation.
-   NOTE: Sections CAN span pages - only individual
-   items (job entries, project entries) stay together.
-   ============================================ */
-
-/* Individual items should stay together (job entries, projects, etc.) */
 .resume-body .resume-item {
   break-inside: avoid;
   page-break-inside: avoid;
 }
 
-/* Section titles should not be orphaned at bottom of page */
 .resume-body .resume-section-title,
 .resume-body .resume-section-title-sm {
   break-after: avoid;
   page-break-after: avoid;
-  /* Ensure at least 3 lines of content follow the header before a page break */
   orphans: 3;
   widows: 3;
 }
 
-/* Keep section header together with its first item */
 .resume-body .resume-section {
-  break-inside: auto; /* Allow sections to span pages */
+  break-inside: auto;
 }
 
-/* Ensure the header + first content element stay together */
 .resume-body .resume-section-title + .resume-items > *:first-child,
 .resume-body .resume-section-title-sm + .resume-items > *:first-child,
 .resume-body .resume-section-title + p,
@@ -233,13 +279,11 @@
   page-break-before: avoid;
 }
 
-/* Generic no-break class for any element */
 .resume-body [data-no-break] {
   break-inside: avoid;
   page-break-inside: avoid;
 }
 
-/* Print-specific overrides for resume templates */
 @media print {
   .resume-body {
     padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left) !important;
@@ -252,13 +296,11 @@
     page-break-after: avoid !important;
   }
 
-  /* Reinforce page break rules in print - only for individual items */
   .resume-body .resume-item {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
   }
 
-  /* Keep section header with first content in print */
   .resume-body .resume-section-title + .resume-items > *:first-child,
   .resume-body .resume-section-title-sm + .resume-items > *:first-child,
   .resume-body .resume-section-title + p,

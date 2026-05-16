@@ -7,7 +7,8 @@ from uuid import UUID
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
-from supabase import create_client, SupabaseClient
+from supabase import create_client
+from supabase.client import Client as SupabaseClient
 
 from app.config import settings
 

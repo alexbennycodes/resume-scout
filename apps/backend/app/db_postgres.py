@@ -22,7 +22,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
 from app.config import settings
 
@@ -160,8 +160,8 @@ class Database:
         async_url = database_url.replace("postgresql://", "postgresql+asyncpg://")
         self._async_engine = create_async_engine(async_url, pool_pre_ping=True, pool_size=10, max_overflow=20)
 
-        self._session_maker = create_sessionmaker(bind=self._engine)
-        self._async_session_maker = create_async_sessionmaker(bind=self._async_engine)
+        self._session_maker = sessionmaker(bind=self._engine, expire_on_commit=False)
+        self._async_session_maker = async_sessionmaker(bind=self._async_engine, expire_on_commit=False)
 
     def create_tables(self) -> None:
         """Create all tables."""
@@ -277,6 +277,7 @@ class Database:
                 # If existing master is stuck, reset it
                 if existing_master:
                     # Could add logic here for failed states
+                    pass
 
                 resume = Resume(user_id=user_id, title=title, content=content, file_url=file_url, is_master=is_master)
                 if is_master:

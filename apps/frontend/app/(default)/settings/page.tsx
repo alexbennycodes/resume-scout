@@ -28,6 +28,7 @@ import { API_URL } from '@/lib/api/client';
 import { getVersionString } from '@/lib/config/version';
 import { ToggleSwitch } from '@/components/ui/toggle-switch';
 import { useStatusCache } from '@/lib/context/status-cache';
+import { useAuth } from '@/lib/context/auth-context';
 import { UsageDisplay } from '@/components/settings/usage-display';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -125,6 +126,8 @@ export default function SettingsPage() {
     lastFetched,
     refreshStatus,
   } = useStatusCache();
+
+  const { user } = useAuth();
 
   // Health check result from manual test
   const [healthCheck, setHealthCheck] = useState<LLMHealthCheck | null>(null);

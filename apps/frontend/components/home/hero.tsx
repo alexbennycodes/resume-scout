@@ -1,45 +1,57 @@
 'use client';
 
-import React from 'react';
+import { ArrowRight, Zap } from 'lucide-react';
 import Link from 'next/link';
-import { useTranslations } from '@/lib/i18n';
 
 export default function Hero() {
-  const { t } = useTranslations();
-
-  // Hover translates DOWN-RIGHT (+1, +1) for the press-in effect — matches
-  // every other button in the codebase. The previous version translated
-  // UP-LEFT (-1, -1) which was the inverse and looked broken next to the
-  // rest of the design system.
-  const buttonClass =
-    'group relative border border-black bg-transparent px-8 py-3 font-mono text-sm font-bold uppercase text-blue-700 transition-[transform,box-shadow,background-color,color] duration-150 ease-out hover:bg-blue-700 hover:text-background hover:translate-y-[1px] hover:translate-x-[1px] hover:shadow-sw-default active:translate-x-0 active:translate-y-0 active:shadow-none cursor-pointer';
-
   return (
-    <section
-      className="h-screen w-full p-4 md:p-12 lg:p-24 bg-background"
-      style={{
-        backgroundImage:
-          'linear-gradient(rgba(29, 78, 216, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(29, 78, 216, 0.1) 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
-      }}
-    >
-      <div className="flex h-full w-full flex-col items-center justify-center border border-black text-blue-700 bg-background shadow-sw-xl">
-        <h1 className="mb-12 text-center font-mono text-6xl font-bold uppercase leading-none tracking-tighter md:text-8xl lg:text-9xl selection:bg-blue-700 selection:text-white">
-          {t('home.brandLine1')}
+    <section className="relative overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--gradient-hero)" }} />
+
+      <div className="max-w-7xl mx-auto px-6 pt-24 pb-32 relative">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-card/70 backdrop-blur text-xs font-mono text-muted-foreground mb-8 reveal">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary pulse-dot" />
+          v2.0 — Now with ATS scoring
+        </div>
+
+        <h1 className="font-display text-6xl md:text-8xl leading-[0.95] max-w-5xl reveal delay-1">
+          The resume that <em className="text-primary">writes itself</em>,
           <br />
-          {t('home.brandLine2')}
+          tailored to every role.
         </h1>
 
-        <div className="flex flex-col gap-4 md:flex-row md:gap-12">
-          <Link href="/pricing" className={buttonClass}>
-            Pricing
+        <p className="mt-8 text-lg text-muted-foreground max-w-xl reveal delay-2">
+          Drop your experience, paste a job post, and watch AI craft a recruiter-ready
+          resume in under 30 seconds — formatted, optimized, and ATS-proof.
+        </p>
+
+        <div className="mt-10 flex flex-wrap items-center gap-4 reveal delay-3">
+          <Link href="/signup" className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3.5 rounded-xl font-medium shadow-[var(--shadow-glow)] hover:-translate-y-0.5 transition-transform">
+            Generate my resume
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
-          <Link href="/login" className={buttonClass}>
-            Login
+          <Link href="/dashboard" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-border bg-card hover:bg-accent transition-colors">
+            <Zap className="w-4 h-4 text-primary" />
+            See a live demo
           </Link>
-          <Link href="/dashboard" className={buttonClass}>
-            {t('home.launchApp')}
-          </Link>
+        </div>
+
+        <div className="mt-16 flex items-center gap-8 text-xs font-mono text-muted-foreground reveal delay-4">
+          <div>
+            <div className="text-2xl font-display text-foreground">2.4M+</div>
+            resumes generated
+          </div>
+          <div className="w-px h-10 bg-border" />
+          <div>
+            <div className="text-2xl font-display text-foreground">94%</div>
+            interview rate
+          </div>
+          <div className="w-px h-10 bg-border" />
+          <div>
+            <div className="text-2xl font-display text-foreground">28s</div>
+            avg. generation
+          </div>
         </div>
       </div>
     </section>

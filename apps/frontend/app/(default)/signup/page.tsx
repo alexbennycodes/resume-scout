@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Sparkles } from "lucide-react";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -59,14 +60,14 @@ export default function SignupPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-canvas p-4">
-        <Card className="w-full max-w-md">
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <Card className="w-full max-w-md rounded-3xl shadow-[var(--shadow-elevated)]">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-serif">Check your email</CardTitle>
+            <CardTitle className="font-display text-3xl">Check your email</CardTitle>
             <CardDescription>We sent a confirmation link to {email}</CardDescription>
           </CardHeader>
-          <CardFooter className="justify-center">
-            <Link href="/login" className="text-sm text-blue-700 hover:underline">
+          <CardFooter className="justify-center pb-8">
+            <Link href="/login" className="text-sm text-primary hover:underline font-medium">
               Back to login
             </Link>
           </CardFooter>
@@ -76,15 +77,25 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-canvas p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-serif">Create Account</CardTitle>
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 grid-bg opacity-30" />
+        <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
+      </div>
+
+      <Card className="w-full max-w-md rounded-3xl shadow-[var(--shadow-elevated)] relative">
+        <CardHeader className="text-center pb-8">
+          <div className="flex justify-center mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-[var(--shadow-glow)]">
+              <Sparkles className="w-6 h-6 text-primary-foreground" />
+            </div>
+          </div>
+          <CardTitle className="font-display text-3xl">Create Account</CardTitle>
           <CardDescription>Start creating tailored resumes</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-5">
           {error && (
-            <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm">{error}</div>
+            <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">{error}</div>
           )}
 
           <Button onClick={handleGoogleSignUp} className="w-full" variant="outline" type="button">
@@ -111,23 +122,23 @@ export default function SignupPage() {
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
+              <span className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-steel-grey">Or sign up with email</span>
+              <span className="bg-card px-2 text-muted-foreground">Or sign up with email</span>
             </div>
           </div>
 
           <form onSubmit={handleEmailSignUp} className="space-y-4">
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" />
             </div>
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} placeholder="At least 6 characters" />
             </div>
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
               <Input
                 id="confirmPassword"
@@ -135,6 +146,7 @@ export default function SignupPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                placeholder="Re-enter your password"
               />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
@@ -142,10 +154,10 @@ export default function SignupPage() {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="justify-center">
-          <p className="text-sm text-steel-grey">
+        <CardFooter className="justify-center pt-6 pb-8">
+          <p className="text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link href="/login" className="text-blue-700 hover:underline">
+            <Link href="/login" className="text-primary hover:underline font-medium">
               Sign in
             </Link>
           </p>

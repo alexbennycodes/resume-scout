@@ -4,47 +4,37 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from '@/lib/i18n';
+import { Button } from '@/components/ui/button';
+import { Settings } from 'lucide-react';
 
 export const SwissGrid = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslations();
 
   return (
-    // 1. Outer Wrapper: Fixed height with grid background
-    <div
-      className="h-screen w-full flex justify-center items-start py-12 px-4 md:px-8 overflow-hidden bg-background"
-      style={{
-        backgroundImage:
-          'linear-gradient(rgba(29, 78, 216, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(29, 78, 216, 0.1) 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
-      }}
-    >
-      {/* 2. The Main Container: Sharp black borders, creating the "Canvas" */}
-      <div className="w-full max-w-[86rem] max-h-full border border-black bg-background shadow-sw-lg flex flex-col overflow-hidden">
-        {/* Header Section - stays above hovered cards */}
-        <div className="border-b border-black p-8 md:p-12 shrink-0 bg-background relative z-30">
-          <h1 className="font-serif text-5xl md:text-7xl text-black tracking-tight leading-[0.95] uppercase">
+    <div className="min-h-screen w-full bg-background">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 grid-bg opacity-30" />
+        <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-6 py-12">
+        {/* Header Section */}
+        <div className="mb-10">
+          <h1 className="font-display text-5xl md:text-7xl text-foreground tracking-tight leading-[0.95]">
             {t('nav.dashboard')}
           </h1>
-          <p className="mt-6 text-sm font-mono text-blue-700 uppercase tracking-wide max-w-md font-bold">
-            {'// '}
+          <p className="mt-4 text-muted-foreground max-w-md">
             {t('dashboard.selectModule')}
           </p>
         </div>
 
-        {/* Content Grid - Scrollable area with NO padding.
-            @container makes the card grid respond to the container's actual
-            width, not the viewport. The Swiss frame is max-w-86rem so on
-            ultra-wide screens the cards no longer over-stretch. */}
-        <div className="@container flex-1 overflow-y-auto overflow-x-hidden relative z-10">
-          <div className="p-[1.5px]">
-            <div className="grid grid-cols-1 @2xl:grid-cols-2 @3xl:grid-cols-3 @5xl:grid-cols-5 bg-black gap-[1px] border-b border-black">
-              {children}
-            </div>
-          </div>
+        {/* Content Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {children}
         </div>
 
-        {/* Footer - stays above hovered cards */}
-        <div className="p-4 bg-background flex justify-between items-center font-mono text-xs text-blue-700 border-t border-black shrink-0 relative z-30">
+        {/* Footer */}
+        <div className="mt-12 pt-6 border-t border-border flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Image
               src="/logo.svg"
@@ -53,16 +43,14 @@ export const SwissGrid = ({ children }: { children: React.ReactNode }) => {
               height={20}
               className="w-5 h-5"
             />
-            <span className="uppercase font-bold">Resume Matcher</span>
+            <span className="text-sm text-muted-foreground">Resume Matcher</span>
           </div>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/settings"
-              className="bg-warning text-black border border-black px-6 py-2 uppercase font-bold tracking-wide shadow-sw-sm hover:translate-y-[1px] hover:translate-x-[1px] hover:shadow-none transition-all min-w-[140px] text-center"
-            >
+          <Link href="/settings">
+            <Button variant="outline" size="sm">
+              <Settings className="w-4 h-4 mr-2" />
               {t('nav.settings')}
-            </Link>
-          </div>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
