@@ -18,14 +18,12 @@ import { ArrowLeft, Edit, Download, Loader2, AlertCircle, Sparkles, Pencil } fro
 import { EnrichmentModal } from '@/components/enrichment/enrichment-modal';
 import { useTranslations } from '@/lib/i18n';
 import { withLocalizedDefaultSections } from '@/lib/utils/section-helpers';
-import { useLanguage } from '@/lib/context/language-context';
 import { downloadBlobAsFile, openUrlInNewTab, sanitizeFilename } from '@/lib/utils/download';
 
 type ProcessingStatus = 'pending' | 'processing' | 'ready' | 'failed';
 
 export default function ResumeViewerPage() {
   const { t } = useTranslations();
-  const { uiLanguage } = useLanguage();
   const params = useParams();
   const router = useRouter();
   const { decrementResumes, setHasMasterResume } = useStatusCache();
@@ -166,14 +164,14 @@ export default function ResumeViewerPage() {
   const handleDownload = async () => {
     setIsDownloading(true);
     try {
-      const blob = await downloadResumePdf(resumeId, undefined, uiLanguage);
+      const blob = await downloadResumePdf(resumeId, undefined);
       const filename = sanitizeFilename(resumeTitle, resumeId, 'resume');
       downloadBlobAsFile(blob, filename);
       setShowDownloadSuccessDialog(true);
     } catch (err) {
       console.error('Failed to download resume:', err);
       if (err instanceof TypeError && err.message.includes('Failed to fetch')) {
-        const fallbackUrl = getResumePdfUrl(resumeId, undefined, uiLanguage);
+        const fallbackUrl = getResumePdfUrl(resumeId, undefined);
         const didOpen = openUrlInNewTab(fallbackUrl);
         if (!didOpen) {
           alert(t('common.popupBlocked', { url: fallbackUrl }));

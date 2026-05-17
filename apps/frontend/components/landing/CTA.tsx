@@ -1,7 +1,12 @@
+'use client';
+
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/lib/context/auth-context';
 
 export function CTA() {
+  const { user } = useAuth();
+
   return (
     <section className="max-w-7xl mx-auto px-6 py-24">
       <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-12 md:p-20 text-center reveal">
@@ -14,7 +19,7 @@ export function CTA() {
           <p className="mt-6 text-muted-foreground max-w-lg mx-auto">
             Free to try. No credit card. Export-ready in under a minute.
           </p>
-          <Link href="/signup" className="group mt-10 inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-4 rounded-xl font-medium shadow-[var(--shadow-glow)] hover:-translate-y-0.5 transition-transform">
+          <Link href={user ? '/dashboard' : '/signup'} className="group mt-10 inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-4 rounded-xl font-medium shadow-[var(--shadow-glow)] hover:-translate-y-0.5 transition-transform">
             Generate my resume
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>

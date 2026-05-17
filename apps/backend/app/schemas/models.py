@@ -551,34 +551,6 @@ class ImproveResumeConfirmRequest(BaseModel):
 
 
 # Config Models
-ReasoningEffortLiteral = Literal["minimal", "low", "medium", "high"]
-
-
-class LLMConfigRequest(BaseModel):
-    """Request to update LLM configuration."""
-
-    provider: str | None = None
-    model: str | None = None
-    api_key: str | None = None
-    api_base: str | None = None
-    # Optional reasoning-effort override.
-    #   - A valid value ("minimal"/"low"/"medium"/"high") updates the setting.
-    #   - Empty string clears the field — the server persists "" rather than
-    #     removing the key, so the gpt-5 auto-migration does not re-fire.
-    #   - None means "don't change this field".
-    # Strictly typed so invalid values are rejected at the boundary (422)
-    # rather than corrupting config.json and crashing later reads.
-    reasoning_effort: Literal["minimal", "low", "medium", "high", ""] | None = None
-
-
-class LLMConfigResponse(BaseModel):
-    """Response for LLM configuration."""
-
-    provider: str
-    model: str
-    api_key: str  # Masked
-    api_base: str | None = None
-    reasoning_effort: ReasoningEffortLiteral | None = None
 
 
 class FeatureConfigRequest(BaseModel):
@@ -593,21 +565,6 @@ class FeatureConfigResponse(BaseModel):
 
     enable_cover_letter: bool = False
     enable_outreach_message: bool = False
-
-
-class LanguageConfigRequest(BaseModel):
-    """Request to update language settings."""
-
-    ui_language: str | None = None  # en, es, zh, ja - for interface
-    content_language: str | None = None  # en, es, zh, ja - for generated content
-
-
-class LanguageConfigResponse(BaseModel):
-    """Response for language settings."""
-
-    ui_language: str = "en"  # Interface language
-    content_language: str = "en"  # Generated content language
-    supported_languages: list[str] = ["en", "es", "zh", "ja"]
 
 
 class PromptOption(BaseModel):
@@ -657,39 +614,6 @@ class FeaturePromptsResponse(BaseModel):
     outreach_message_default: str
 
 
-# API Key Management Models
-class ApiKeyProviderStatus(BaseModel):
-    """Status of a single API key provider."""
-
-    provider: str  # openai, anthropic, google, etc.
-    configured: bool
-    masked_key: str | None = None  # Shows last 4 chars if configured
-
-
-class ApiKeyStatusResponse(BaseModel):
-    """Response for API key status check."""
-
-    providers: list[ApiKeyProviderStatus]
-
-
-class ApiKeysUpdateRequest(BaseModel):
-    """Request to update API keys."""
-
-    openai: str | None = None
-    anthropic: str | None = None
-    google: str | None = None
-    openrouter: str | None = None
-    deepseek: str | None = None
-    groq: str | None = None
-
-
-class ApiKeysUpdateResponse(BaseModel):
-    """Response after updating API keys."""
-
-    message: str
-    updated_providers: list[str]
-
-
 # Update Cover Letter/Outreach Models
 class UpdateCoverLetterRequest(BaseModel):
     """Request to update cover letter content."""
@@ -733,8 +657,6 @@ class StatusResponse(BaseModel):
     """Application status response."""
 
     status: str
-    llm_configured: bool
-    llm_healthy: bool
     has_master_resume: bool
     database_stats: dict[str, Any]
 

@@ -56,13 +56,27 @@ export async function apiFetch(
     url = resolveRuntimeApiBase(normalizedEndpoint);
   }
 
+  // Attach auth token for all relative API requests
+  const headers: Record<string, string> = { ...(options?.headers as Record<string, string> || {}) };
+  if (typeof window !== 'undefined' && !isAbsoluteUrl) {
+    try {
+      const { getSession } = await import('@/lib/supabase');
+      const session = await getSession();
+      if (session?.access_token && !headers['Authorization']) {
+        headers['Authorization'] = `Bearer ${session.access_token}`;
+      }
+    } catch {
+      // Ignore auth errors — let the request proceed without a token
+    }
+  }
+
   // Matches the backend's 240s hard limit (resumes.py wait_for timeout)
   const timeout = timeoutMs ?? 240_000;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
 
   try {
-    return await fetch(url, { ...options, signal: controller.signal });
+    return await fetch(url, { ...options, headers, signal: controller.signal });
   } catch (error) {
     if (error instanceof Error && error.name === 'AbortError') {
       throw new Error('Request timed out. Please try again with a shorter job description or check your connection.');

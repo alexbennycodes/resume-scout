@@ -9,7 +9,6 @@ from uuid import uuid4
 
 from fastapi import APIRouter, HTTPException
 
-from app.config_cache import get_content_language
 from app.database import db
 from app.llm import complete_json
 from app.prompts.enrichment import (
@@ -18,7 +17,6 @@ from app.prompts.enrichment import (
     REGENERATE_ITEM_PROMPT,
     REGENERATE_SKILLS_PROMPT,
 )
-from app.prompts.templates import get_language_name
 from app.schemas.enrichment import (
     AnalysisResponse,
     AnswerInput,
@@ -106,8 +104,7 @@ async def analyze_resume(resume_id: str) -> AnalysisResponse:
 
     # Build prompt with content language
     resume_json = json.dumps(processed_data)
-    language = get_content_language()
-    output_language = get_language_name(language)
+    output_language = "English"
     prompt = ANALYZE_RESUME_PROMPT.format(
         resume_json=resume_json,
         output_language=output_language
@@ -212,8 +209,7 @@ async def generate_enhancements(request: EnhanceRequest) -> EnhancementPreview:
     else:
         # Legacy path — re-analyze to get question-to-item mapping
         resume_json = json.dumps(processed_data)
-        language = get_content_language()
-        output_language = get_language_name(language)
+        output_language = "English"
         analysis_prompt = ANALYZE_RESUME_PROMPT.format(
             resume_json=resume_json,
             output_language=output_language,
@@ -285,8 +281,7 @@ async def generate_enhancements(request: EnhanceRequest) -> EnhancementPreview:
         current_desc = item.get("current_description", [])
         current_desc_text = "\n".join(f"- {d}" for d in current_desc) if current_desc else "(No description)"
         
-        language = get_content_language()
-        output_language = get_language_name(language)
+        output_language = "English"
 
         prompt = ENHANCE_DESCRIPTION_PROMPT.format(
             item_type=item.get("item_type", "experience"),
@@ -499,8 +494,8 @@ async def regenerate_items(request: RegenerateRequest) -> RegenerateResponse:
     if not request.items:
         raise HTTPException(status_code=400, detail="No items selected for regeneration")
 
-    # Get language name for LLM
-    output_language = get_language_name(request.output_language)
+    # Output language is always English
+    output_language = "English"
 
     # Process all items in parallel for better performance
     tasks = []

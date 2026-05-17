@@ -14,7 +14,7 @@ from uuid import uuid4
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from fastapi.responses import Response
 
-from app.config_cache import get_content_language, load_config as _load_config
+from app.config_cache import load_config as _load_config
 from app.database import db
 from app.pdf import render_resume_pdf, PDFRenderError
 from app.config import settings
@@ -698,7 +698,7 @@ async def improve_resume_preview_endpoint(
     if not job:
         raise HTTPException(status_code=404, detail="Job description not found")
 
-    language = get_content_language()
+    language = "en"
     prompt_id = request.prompt_id or _get_default_prompt_id()
 
     stage = "load_job_keywords"
@@ -1000,7 +1000,7 @@ async def improve_resume_confirm_endpoint(
     feature_config = _load_config()
     enable_cover_letter = feature_config.get("enable_cover_letter", False)
     enable_outreach = feature_config.get("enable_outreach_message", False)
-    language = get_content_language()
+    language = "en"
 
     stage = "serialize_improved_data"
     detail = "Failed to confirm resume. Please try again."
@@ -1150,7 +1150,7 @@ async def improve_resume_endpoint(
     feature_config = _load_config()
     enable_cover_letter = feature_config.get("enable_cover_letter", False)
     enable_outreach = feature_config.get("enable_outreach_message", False)
-    language = get_content_language()
+    language = "en"
 
     try:
         # Extract keywords from job description
@@ -1663,7 +1663,7 @@ async def generate_cover_letter_endpoint(resume_id: str) -> GenerateContentRespo
         )
 
     # Get language setting
-    language = get_content_language()
+    language = "en"
 
     # Generate cover letter
     try:
@@ -1734,7 +1734,7 @@ async def generate_outreach_endpoint(resume_id: str) -> GenerateContentResponse:
         )
 
     # Get language setting
-    language = get_content_language()
+    language = "en"
 
     # Generate outreach message
     try:

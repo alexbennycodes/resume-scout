@@ -587,14 +587,10 @@
     "darkMode": "Dark",
     "systemMode": "System",
     "dangerZone": "Danger Zone",
-    "clearApiKeys": "Clear API Keys",
-    "clearApiKeysDescription": "Removes all stored API keys from the configuration. This action cannot be undone.",
     "resetDatabase": "Reset Database",
     "resetDatabaseDescription": "Deletes ALL data including resumes, jobs, and generated content. This action cannot be undone.",
-    "llmConfigurationTitle": "LLM Configuration",
-    "providerLabel": "Provider",
     "statusCards": {
-      "llm": "LLM",
+      "llm": "AI",
       "database": "Database",
       "resumes": "Resumes",
       "jobs": "Jobs",
@@ -608,18 +604,6 @@
       "configured": "Configured",
       "notSet": "Not set"
     },
-    "apiKeyMenu": {
-      "buttonLabel": "LLM API",
-      "title": "OpenAI API Key",
-      "description": "Provide your key to enable hosted OpenAI models.",
-      "savedMessage": "API key saved.",
-      "loadError": "Unable to load API key",
-      "updateError": "Unable to update API key"
-    },
-    "setupRequired": {
-      "title": "[ SETUP REQUIRED ]",
-      "description": "> No API key configured. Add your LLM provider API key below to enable resume tailoring."
-    },
     "systemStatus": {
       "title": "System Status",
       "refresh": "Refresh",
@@ -630,50 +614,6 @@
         "justNow": "Just now",
         "minutesAgo": "{minutes}m ago",
         "hoursAgo": "{hours}h ago"
-      }
-    },
-    "llmConfiguration": {
-      "selectedProvider": "SELECTED: {provider}",
-      "modelLabel": "Model",
-      "defaultModel": "DEFAULT: {model}",
-      "apiKeyLabel": "API Key",
-      "apiKeyOptionalForOllama": "(Optional for Ollama)",
-      "apiKeyOptional": "(Optional)",
-      "apiKeyPlaceholder": "sk-...",
-      "apiKeyNotRequiredPlaceholder": "Not required for local models",
-      "apiKeyOptionalPlaceholder": "Leave blank if your server has no auth",
-      "leaveBlankToKeepExistingKey": "LEAVE BLANK TO KEEP EXISTING KEY",
-      "baseUrlLabel": "Base URL (optional)",
-      "baseUrlPlaceholder": "e.g. https://api.openai.com/v1",
-      "baseUrlDescription": "Override the API base URL to use a proxy/aggregator endpoint. Leave blank to use provider default.",
-      "ollamaServerUrl": "Ollama Server URL",
-      "ollamaServerUrlPlaceholder": "http://localhost:11434",
-      "reasoningEffortLabel": "Reasoning effort",
-      "reasoningEffortAuto": "Auto",
-      "reasoningEffortAutoDesc": "Don't send reasoning_effort — default for max compatibility",
-      "reasoningEffortMinimal": "Minimal",
-      "reasoningEffortLow": "Low",
-      "reasoningEffortMedium": "Medium",
-      "reasoningEffortHigh": "High",
-      "reasoningEffortDescription": "Only affects reasoning-capable models (gpt-5 family, Claude 3.7+, DeepSeek R1, OpenAI o1/o3). Unsupported providers drop this value automatically.",
-      "testConnection": "Test Connection",
-      "errorPrefix": "ERROR: {error}",
-      "connectionSuccessful": "CONNECTION SUCCESSFUL",
-      "connectionFailed": "CONNECTION FAILED",
-      "connectionDetails": "Provider: {provider} | Model: {model}",
-      "testPromptLabel": "TEST PROMPT",
-      "modelOutputLabel": "MODEL OUTPUT",
-      "reasoningContentLabel": "MODEL THINKING",
-      "errorDetailLabel": "ERROR DETAIL",
-      "healthErrors": {
-        "api_key_missing": "API key not configured. Please add a key in Settings.",
-        "health_check_failed": "Health check failed.",
-        "duplicate_v1_path": "Health check failed. The Base URL may contain a duplicate /v1 path.",
-        "not_found_404": "Health check failed. 404 Not Found - check that the Base URL matches the provider.",
-        "html_response": "Health check failed. The Base URL returned HTML; it may be a console URL or an unsupported gateway path."
-      },
-      "healthWarnings": {
-        "empty_content": "LLM returned empty content for the health check."
       }
     },
     "contentGeneration": {
@@ -857,8 +797,6 @@
     "keepResumeCancelLabel": "Keep Resume",
     "discardChanges": "Discard unsaved changes?",
     "discardChangesDescription": "You'll lose any work that hasn't been saved.",
-    "clearApiKeys": "Clear All API Keys?",
-    "clearApiKeysDescription": "You'll need to re-enter them before using AI features again.",
     "resetDatabase": "Reset everything and start over?",
     "resetDatabaseDescription": "This permanently deletes every resume, job description, and generated document."
   }

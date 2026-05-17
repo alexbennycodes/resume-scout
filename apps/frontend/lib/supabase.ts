@@ -85,6 +85,8 @@ export async function getSession() {
   return session;
 }
 
-export function onAuthStateChange(callback: (event: string, session: unknown) => void) {
+import { Session } from '@supabase/supabase-js';
+
+export function onAuthStateChange(callback: (event: string, session: Session | null) => void) {
   return supabase.auth.onAuthStateChange(callback);
 }

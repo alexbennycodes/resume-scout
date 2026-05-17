@@ -2,8 +2,11 @@
 
 import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/lib/context/auth-context';
 
 export default function Nav() {
+  const { user } = useAuth();
+
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border/60 reveal">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -19,12 +22,20 @@ export default function Nav() {
           <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
         </nav>
         <div className="flex items-center gap-3">
-          <Link href="/login" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            Sign in
-          </Link>
-          <Link href="/signup" className="text-sm font-medium bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 hover:-translate-y-0.5 transition-all shadow-[var(--shadow-glow)]">
-            Start free
-          </Link>
+          {user ? (
+            <Link href="/dashboard" className="text-sm font-medium bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 hover:-translate-y-0.5 transition-all shadow-[var(--shadow-glow)]">
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Sign in
+              </Link>
+              <Link href="/signup" className="text-sm font-medium bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 hover:-translate-y-0.5 transition-all shadow-[var(--shadow-glow)]">
+                Start free
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

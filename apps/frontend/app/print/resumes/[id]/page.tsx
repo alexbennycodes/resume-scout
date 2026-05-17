@@ -11,7 +11,6 @@ import {
 } from '@/lib/types/template-settings';
 import { API_BASE } from '@/lib/api/client';
 import { translate } from '@/lib/i18n/server';
-import { resolveLocale } from '@/lib/i18n/locale';
 import { withLocalizedDefaultSections } from '@/lib/utils/section-helpers';
 
 type PageProps = {
@@ -155,9 +154,8 @@ export default async function PrintResumePage({ params, searchParams }: PageProp
   const resolvedParams = await params;
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const resumeData = await fetchResumeData(resolvedParams.id);
-  const locale = resolveLocale(resolvedSearchParams?.lang);
   const t = (key: string, params?: Record<string, string | number>) =>
-    translate(locale, key, params);
+    translate('en', key, params);
   const localizedResumeData = withLocalizedDefaultSections(resumeData, t);
   const additionalSectionLabels = {
     technicalSkills: t('resume.additionalLabels.technicalSkills'),

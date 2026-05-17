@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Target, Wand2, Languages, FileDown, Clock, ShieldCheck } from 'lucide-react';
+import { MeshBackground } from './mesh-background';
 
 function Skeleton({ className = '' }: { className?: string }) {
   return (
@@ -11,7 +12,7 @@ function Skeleton({ className = '' }: { className?: string }) {
   );
 }
 
-const card = 'group relative border border-border bg-card p-6 overflow-hidden transition-colors duration-300 hover:bg-accent/30 hover:z-10';
+const card = 'group relative border border-border/50 bg-card p-6 overflow-hidden';
 
 function LivePreview() {
   const [tab, setTab] = useState<'draft' | 'ai'>('ai');
@@ -203,22 +204,24 @@ function PrivacyCard() {
 
 export default function Bento() {
   return (
-    <section id="features" className="max-w-7xl mx-auto px-6 py-24">
-      <div className="max-w-2xl mb-12 reveal">
-        <div className="text-xs font-mono text-primary uppercase tracking-wider mb-3">/ Features</div>
-        <h2 className="font-display text-5xl md:text-6xl leading-[1]">
-          Everything you need to <em>land the interview.</em>
-        </h2>
-      </div>
+    <MeshBackground className="py-24">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-2xl mb-12 reveal">
+          <div className="text-xs font-mono text-primary-foreground/60 uppercase tracking-wider mb-3">/ Features</div>
+          <h2 className="font-display text-5xl md:text-6xl leading-[1] text-primary-foreground">
+            Everything you need to <em className="text-white/90">land the interview.</em>
+          </h2>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 border border-border [&>*]:-mt-px [&>*]:-ml-px">
-        <LivePreview />
-        <ATSCard />
-        <SpeedCard />
-        <LangCard />
-        <ExportCard />
-        <PrivacyCard />
+        <div className="grid grid-cols-1 lg:grid-cols-3 border border-border/30 [&>*]:-mt-px [&>*]:-ml-px">
+          <LivePreview />
+          <ATSCard />
+          <SpeedCard />
+          <LangCard />
+          <ExportCard />
+          <PrivacyCard />
+        </div>
       </div>
-    </section>
+    </MeshBackground>
   );
 }

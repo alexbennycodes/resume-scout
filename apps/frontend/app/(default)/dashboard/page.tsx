@@ -14,8 +14,6 @@ import Loader2 from 'lucide-react/dist/esm/icons/loader-2';
 import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
 import RefreshCw from 'lucide-react/dist/esm/icons/refresh-cw';
 import Plus from 'lucide-react/dist/esm/icons/plus';
-import Settings from 'lucide-react/dist/esm/icons/settings';
-import AlertTriangle from 'lucide-react/dist/esm/icons/alert-triangle';
 import FileText from 'lucide-react/dist/esm/icons/file-text';
 import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
 
@@ -52,18 +50,15 @@ export default function DashboardPage() {
   const loadRequestIdRef = useRef(0);
   const jobSnippetCacheRef = useRef<Record<string, string>>({});
 
-  const isLlmConfigured = !statusLoading && systemStatus?.llm_configured;
-
   const isTailorEnabled =
-    Boolean(masterResumeId) && processingStatus === 'ready' && isLlmConfigured;
+    Boolean(masterResumeId) && processingStatus === 'ready';
 
   const formatDate = (value: string) => {
     if (!value) return t('common.unknown');
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return t('common.unknown');
 
-    const dateLocale =
-      locale === 'es' ? 'es-ES' : locale === 'zh' ? 'zh-CN' : locale === 'ja' ? 'ja-JP' : 'en-US';
+    const dateLocale = 'en-US';
 
     return date.toLocaleDateString(dateLocale, {
       month: 'short',
@@ -277,80 +272,31 @@ export default function DashboardPage() {
           <p className="text-muted-foreground text-lg">Manage and create your tailored resumes</p>
         </div>
 
-        {/* Configuration Warning Banner */}
-        {masterResumeId && !isLlmConfigured && !statusLoading && (
-          <div className="rounded-2xl border border-warning/50 bg-amber-50 p-5 mb-8 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-warning/10 flex items-center justify-center">
-                <AlertTriangle className="w-5 h-5 text-warning" />
-              </div>
-              <div>
-                <p className="font-medium text-amber-800">
-                  {t('dashboard.llmNotConfiguredTitle')}
-                </p>
-                <p className="text-sm text-amber-700 mt-0.5">
-                  {t('dashboard.llmNotConfiguredMessage')}
-                </p>
-              </div>
-            </div>
-            <Link href="/settings">
-              <Button variant="outline" size="sm">
-                <Settings className="w-4 h-4 mr-2" />
-                {t('nav.settings')}
-              </Button>
-            </Link>
-          </div>
-        )}
-
         {/* Master Resume Section */}
         <div className="mb-8">
           {!masterResumeId ? (
-            !isLlmConfigured && !statusLoading ? (
-              <Link href="/settings">
-                <Card className="rounded-2xl border-dashed border-warning/50 bg-amber-50 hover:border-warning cursor-pointer">
+            <ResumeUploadDialog
+              open={isUploadDialogOpen}
+              onOpenChange={setIsUploadDialogOpen}
+              onUploadComplete={handleUploadComplete}
+              trigger={
+                <Card className="rounded-2xl border-dashed border-border bg-card hover:border-primary cursor-pointer">
                   <div className="p-8 flex items-center gap-6">
-                    <div className="w-16 h-16 rounded-2xl bg-warning/10 flex items-center justify-center">
-                      <AlertTriangle className="w-8 h-8 text-warning" />
+                    <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+                      <Plus className="w-8 h-8 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <CardTitle className="text-xl text-amber-800 mb-2">
-                        {t('dashboard.setupRequiredTitle')}
+                      <CardTitle className="text-xl mb-2">
+                        {t('dashboard.initializeMasterResume')}
                       </CardTitle>
-                      <CardDescription className="text-amber-700">
-                        {t('dashboard.setupRequiredMessage')}
+                      <CardDescription>
+                        {t('dashboard.initializeSequence')}
                       </CardDescription>
                     </div>
-                    <Button variant="outline">
-                      <Settings className="w-4 h-4 mr-2" />
-                      {t('nav.goToSettings')}
-                    </Button>
                   </div>
                 </Card>
-              </Link>
-            ) : (
-              <ResumeUploadDialog
-                open={isUploadDialogOpen}
-                onOpenChange={setIsUploadDialogOpen}
-                onUploadComplete={handleUploadComplete}
-                trigger={
-                  <Card className="rounded-2xl border-dashed border-border bg-card hover:border-primary cursor-pointer">
-                    <div className="p-8 flex items-center gap-6">
-                      <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-                        <Plus className="w-8 h-8 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <CardTitle className="text-xl mb-2">
-                          {t('dashboard.initializeMasterResume')}
-                        </CardTitle>
-                        <CardDescription>
-                          {t('dashboard.initializeSequence')}
-                        </CardDescription>
-                      </div>
-                    </div>
-                  </Card>
-                }
-              />
-            )
+              }
+            />
           ) : (
             <Card
               className="rounded-2xl hover:shadow-[var(--shadow-glow)] cursor-pointer transition-all duration-300"
